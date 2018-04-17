@@ -1,3 +1,5 @@
+from builtins import super
+
 from django.db.migrations.operations.models import ModelOptionOperation
 
 
@@ -24,8 +26,8 @@ class AlterConstraints(ModelOptionOperation):
         if self.allow_migrate_model(schema_editor.connection.alias, to_model):
             from_model = from_state.apps.get_model(app_label, self.name)
 
-            to_constraints = getattr(to_model._meta, self.option_name, {}).keys()
-            from_constraints = getattr(from_model._meta, self.option_name, {}).keys()
+            to_constraints = frozenset(getattr(to_model._meta, self.option_name, {}))
+            from_constraints = frozenset(getattr(from_model._meta, self.option_name, {}))
 
             table_operations = tuple(
                 'DROP CONSTRAINT IF EXISTS {name}'.format(

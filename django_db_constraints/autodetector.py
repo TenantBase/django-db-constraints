@@ -1,3 +1,5 @@
+from builtins import super
+
 from django.db.migrations import operations
 from django.db.migrations.autodetector import MigrationAutodetector
 
